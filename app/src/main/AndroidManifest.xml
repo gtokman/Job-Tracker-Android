@@ -14,12 +14,12 @@
 
         </activity>
 
-        <activity android:name=".login.SignUpActivity"
+        <activity android:name=".signup.SignUpActivity"
                 android:label="Signup">
 
         </activity>
 
-        <activity android:name=".login.AuthActivity"
+        <activity android:name=".AuthActivity"
                 android:label="AuthActivity">
 
             <intent-filter>

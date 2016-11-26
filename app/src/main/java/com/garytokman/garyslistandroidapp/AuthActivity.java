@@ -1,4 +1,4 @@
-package com.garytokman.garyslistandroidapp.login;
+package com.garytokman.garyslistandroidapp;
 // Gary Tokman
 // 11/22/16
 // GaryslistAndroidApp
@@ -11,7 +11,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.garytokman.garyslistandroidapp.R;
+import com.garytokman.garyslistandroidapp.login.LoginActivity;
+import com.garytokman.garyslistandroidapp.signup.SignUpActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

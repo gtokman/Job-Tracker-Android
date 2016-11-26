@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "793237024635",
+    "firebase_url": "https://hiredjobapp.firebaseio.com",
+    "project_id": "hiredjobapp",
+    "storage_bucket": "hiredjobapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:793237024635:android:3bc00c71f14a60de",
+        "android_client_info": {
+          "package_name": "com.garytokman.garyslistandroidapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "793237024635-5drrmpo467vm70emd40sdt9c6pfhckgd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.garytokman.garyslistandroidapp",
+            "certificate_hash": "6BAFC098B27D51A337AD2AF33A6E5BCC266F55EA"
+          }
+        },
+        {
+          "client_id": "793237024635-cu36tpe9lbc1tc0o0lnl9v5l4udcbetk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1DryvccYHZsXLwqF8wQkm3HE31ibjLns"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "793237024635-cu36tpe9lbc1tc0o0lnl9v5l4udcbetk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

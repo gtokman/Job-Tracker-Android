@@ -1,4 +1,7 @@
-package com.garytokman.garyslistandroidapp.login;
+package com.garytokman.garyslistandroidapp.signup;
+// Gary Tokman
+// 11/22/16
+// GaryslistAndroidApp
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -6,6 +9,7 @@ import com.google.firebase.auth.FirebaseUser;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -22,10 +26,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class LoginActivity extends AppCompatActivity implements LoginContract.View, FirebaseAuth.AuthStateListener {
+public class SignUpActivity extends AppCompatActivity implements SignUpContract.View, FirebaseAuth.AuthStateListener {
 
     @BindView(R.id.email_text)
     EditText mEmailText;
+    @BindView(R.id.username_text)
+    EditText mUsernameText;
     @BindView(R.id.password_text)
     EditText mPasswordText;
     @BindView(R.id.progressBar)
@@ -33,43 +39,44 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @BindView(R.id.activity_signup)
     LinearLayout mActivitySignup;
 
-    private LoginPresenter mLoginPresenter;
+    private SignUpPresenter mSignUpPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
 
-        mLoginPresenter = new LoginPresenter(FirebaseAuthInjector.provideFirebaseAuth(), this);
-        mLoginPresenter.setView(this);
+        mSignUpPresenter = new SignUpPresenter(FirebaseAuthInjector.provideFirebaseAuth(), this);
+        mSignUpPresenter.setView(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mLoginPresenter.onStart();
+        mSignUpPresenter.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mLoginPresenter.onStop();
+        mSignUpPresenter.onStop();
     }
 
-    @OnClick(R.id.login_button)
-    public void onClickLogin(View view) {
-        mLoginPresenter.loginUser();
-    }
-
-    @OnClick(R.id.forgot_password_button)
-    public void onClickForgotPassword(View view) {
-        mLoginPresenter.userForgotPassword();
+    @OnClick(R.id.signup_button)
+    public void onClickSignUp(View view) {
+        Timber.i("On click sign up!");
+        mSignUpPresenter.signUpUser();
     }
 
     @Override
     public String getEmailAddress() {
         return mEmailText.getText().toString();
+    }
+
+    @Override
+    public String getUserName() {
+        return mUsernameText.getText().toString();
     }
 
     @Override
@@ -95,7 +102,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void showErrorMessage(String errorMessage) {
         Snackbar.make(mActivitySignup, "Error: " + errorMessage, Snackbar.LENGTH_INDEFINITE)
-        .setAction(R.string.ok_text, v -> Timber.i("OK clicked")).show();
+                .setAction(R.string.ok_text, v -> {
+                    Timber.i("OK hit");
+                }).show();
     }
 
     @Override
@@ -108,11 +117,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         FirebaseUser user = firebaseAuth.getCurrentUser();
-
         if (user == null) {
-            Timber.i("User is null");
+            Timber.i("User is null.");
         } else {
-            Timber.i("Start activity we have a user %s %s", user.getUid(), user.getEmail());
+            Timber.i("User is %s %s %s", user.getUid(), user.getEmail(), user.getDisplayName());
         }
     }
 }

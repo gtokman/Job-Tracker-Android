@@ -7,4 +7,6 @@
     <string name="login_text">Login</string>
     <string name="forgot_password">Forgot password</string>
     <string name="placeholder_desc">This is a ramdom discription of what the application does and why you should download it!</string>
+    <string name="empty_fields">Text fields cannot be empty.</string>
+    <string name="ok_text">OK</string>
 </resources>
