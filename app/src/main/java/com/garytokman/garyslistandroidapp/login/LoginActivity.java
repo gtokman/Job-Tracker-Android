@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,7 @@ import android.widget.ProgressBar;
 
 import com.garytokman.garyslistandroidapp.R;
 import com.garytokman.garyslistandroidapp.injecter.FirebaseAuthInjector;
+import com.garytokman.garyslistandroidapp.status.JobsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -113,6 +115,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             Timber.i("User is null");
         } else {
             Timber.i("Start activity we have a user %s %s", user.getUid(), user.getEmail());
+            startActivity(new Intent(this, JobsActivity.class));
         }
     }
 }

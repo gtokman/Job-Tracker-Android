@@ -29,6 +29,9 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:name=".status.JobsActivity"
+                android:label="Jobs Activity"/>
     </application>
 
 </manifest>

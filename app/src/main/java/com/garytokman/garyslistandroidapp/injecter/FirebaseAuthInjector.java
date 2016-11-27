@@ -5,6 +5,8 @@ package com.garytokman.garyslistandroidapp.injecter;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseAuthInjector {
 
@@ -16,4 +18,11 @@ public class FirebaseAuthInjector {
         return provideFirebaseAuth().getCurrentUser();
     }
 
+    public static DatabaseReference provideRootDatabaseRef() {
+        return provideFirebaseDateBase().getReference();
+    }
+
+    private static FirebaseDatabase provideFirebaseDateBase() {
+        return FirebaseDatabase.getInstance();
+    }
 }

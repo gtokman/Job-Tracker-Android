@@ -12,8 +12,8 @@ import timber.log.Timber;
 public class LoginPresenter implements LoginContract.Presenter {
 
     private LoginContract.View mView;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private final FirebaseAuth mAuth;
+    private final FirebaseAuth.AuthStateListener mAuthStateListener;
 
     public LoginPresenter(FirebaseAuth auth, FirebaseAuth.AuthStateListener authStateListener) {
         mAuth = auth;

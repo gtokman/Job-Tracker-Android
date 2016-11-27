@@ -32,6 +32,7 @@ public class AuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
         ButterKnife.bind(this);
+
     }
 
     @OnClick(R.id.user_login_button)

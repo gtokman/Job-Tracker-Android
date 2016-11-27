@@ -13,8 +13,8 @@ import timber.log.Timber;
 public class SignUpPresenter implements SignUpContract.Presenter {
 
     private SignUpContract.View mView;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private final FirebaseAuth mAuth;
+    private final FirebaseAuth.AuthStateListener mAuthStateListener;
 
     public SignUpPresenter(FirebaseAuth auth, FirebaseAuth.AuthStateListener authStateListener) {
         mAuth = auth;
