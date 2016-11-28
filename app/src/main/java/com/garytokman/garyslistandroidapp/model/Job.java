@@ -3,34 +3,55 @@ package com.garytokman.garyslistandroidapp.model;
 // 11/26/16
 // GaryslistAndroidApp
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@IgnoreExtraProperties
 public class Job {
 
-    private String mName;
-    private String mImage;
-    private String mStatus;
+    private String name;
+    private String status;
+    private boolean notification;
+
+    public Job() {
+    }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     public void setName(String name) {
-        mName = name;
-    }
-
-    public String getImage() {
-        return mImage;
-    }
-
-    public void setImage(String image) {
-        mImage = image;
+        this.name = name;
     }
 
     public String getStatus() {
-        return mStatus;
+        return status;
     }
 
     public void setStatus(String status) {
-        mStatus = status;
+        this.status = status;
+    }
+
+    public boolean isNotification() {
+        return notification;
+    }
+
+    public void setNotification(boolean notification) {
+        this.notification = notification;
+    }
+
+    @Exclude
+    public Map<String, Object> toJson() {
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("name", name);
+        data.put("status", status);
+        data.put("notification", notification);
+
+        return data;
     }
 
     @Override
@@ -40,17 +61,22 @@ public class Job {
 
         Job job = (Job) o;
 
-        if (mName != null ? !mName.equals(job.mName) : job.mName != null) return false;
-        return mImage != null ? mImage.equals(job.mImage) : job.mImage == null
-                && (mStatus != null ? mStatus.equals(job.mStatus) : job.mStatus == null);
+        if (notification != job.notification) return false;
+        if (name != null ? !name.equals(job.name) : job.name != null) return false;
+        return status != null ? status.equals(job.status) : job.status == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = mName != null ? mName.hashCode() : 0;
-        result = 31 * result + (mImage != null ? mImage.hashCode() : 0);
-        result = 31 * result + (mStatus != null ? mStatus.hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (notification ? 1 : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + status + " " + notification;
     }
 }

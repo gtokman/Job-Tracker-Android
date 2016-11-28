@@ -26,13 +26,13 @@ public class JobsPresenter implements JobsContract.Presenter, ChildEventListener
     @Override
     public void loadAllJobs() {
         mView.showLoadingIndicator();
-        mDatabaseReference.child(provideFireUser().getUid()).child("jobs").addChildEventListener(this);
+        mDatabaseReference.child("users").child(provideFireUser().getUid()).child("jobs").addChildEventListener(this);
     }
 
     @Override
     public void removeJob() {
         mView.showLoadingIndicator();
-        mDatabaseReference.child(provideFireUser().getUid()).child("jobs").addChildEventListener(this);
+        mDatabaseReference.child("users").child(provideFireUser().getUid()).child("jobs").addChildEventListener(this);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class JobsPresenter implements JobsContract.Presenter, ChildEventListener
             mView.hideEmptyText();
             Job job = dataSnapshot.getValue(Job.class);
             mView.addJob(job);
-            Timber.i("dataSnapshot exists.");
+            Timber.i("dataSnapshot exists." + dataSnapshot.getValue(Job.class).toString());
         } else {
             mView.showEmptyText();
             mView.hideLoadingIndicator();

@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ import android.widget.ProgressBar;
 
 import com.garytokman.garyslistandroidapp.R;
 import com.garytokman.garyslistandroidapp.injecter.FirebaseAuthInjector;
+import com.garytokman.garyslistandroidapp.status.JobsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -121,6 +123,8 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
             Timber.i("User is null.");
         } else {
             Timber.i("User is %s %s %s", user.getUid(), user.getEmail(), user.getDisplayName());
+            startActivity(new Intent(this, JobsActivity.class));
+            finish();
         }
     }
 }

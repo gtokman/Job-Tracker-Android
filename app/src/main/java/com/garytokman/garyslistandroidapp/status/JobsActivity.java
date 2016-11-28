@@ -3,6 +3,7 @@ package com.garytokman.garyslistandroidapp.status;
 // 11/26/16
 // GaryslistAndroidApp
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.garytokman.garyslistandroidapp.R;
 import com.garytokman.garyslistandroidapp.injecter.FirebaseAuthInjector;
 import com.garytokman.garyslistandroidapp.model.Job;
+import com.garytokman.garyslistandroidapp.post.PostActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,6 +68,7 @@ public class JobsActivity extends AppCompatActivity implements JobsContract.View
     @OnClick(R.id.add_fab)
     public void onClickFab() {
         Timber.i("OnClick fab");
+        startActivity(new Intent(this, PostActivity.class));
     }
 
     @Override

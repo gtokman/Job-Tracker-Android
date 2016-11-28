@@ -116,6 +116,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         } else {
             Timber.i("Start activity we have a user %s %s", user.getUid(), user.getEmail());
             startActivity(new Intent(this, JobsActivity.class));
+            finish();
         }
     }
 }

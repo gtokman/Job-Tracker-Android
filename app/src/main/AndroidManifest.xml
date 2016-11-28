@@ -32,6 +32,9 @@
 
         <activity android:name=".status.JobsActivity"
                 android:label="Jobs Activity"/>
+
+        <activity android:name=".post.PostActivity"
+                android:label="Post Activity"/>
     </application>
 
 </manifest>
