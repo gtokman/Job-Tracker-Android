@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.garytokman.garyslistandroidapp.R;
-import com.garytokman.garyslistandroidapp.injecter.FirebaseAuthInjector;
+import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
 import com.garytokman.garyslistandroidapp.status.JobsActivity;
 
 import butterknife.BindView;
@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        mLoginPresenter = new LoginPresenter(FirebaseAuthInjector.provideFirebaseAuth(), this);
+        mLoginPresenter = new LoginPresenter(FirebaseInjector.provideFirebaseAuth(), this);
         mLoginPresenter.setView(this);
     }
 

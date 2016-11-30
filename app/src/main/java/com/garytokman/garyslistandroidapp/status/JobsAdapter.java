@@ -21,9 +21,15 @@ import butterknife.ButterKnife;
 
 public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.JobsViewHolder> {
 
-    private List<Job> mJobs;
+    public interface OnBookListener {
+        void onJobSelected(Job job);
+    }
 
-    public JobsAdapter() {
+    private List<Job> mJobs;
+    private OnBookListener mOnBookListener;
+
+    public JobsAdapter(OnBookListener onBookListener) {
+        mOnBookListener = onBookListener;
         mJobs = new ArrayList<>();
     }
 
@@ -44,7 +50,7 @@ public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.JobsViewHolder
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.job_item, parent, false);
 
-        return new JobsViewHolder(view);
+        return new JobsViewHolder(view, mOnBookListener);
     }
 
     @Override
@@ -62,7 +68,7 @@ public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.JobsViewHolder
         return mJobs.size();
     }
 
-    public static class JobsViewHolder extends RecyclerView.ViewHolder {
+    public  class JobsViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
 
         @BindView(R.id.company_name)
@@ -72,11 +78,26 @@ public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.JobsViewHolder
         @BindView(R.id.notif_image)
         ImageView mImageView;
 
-        public JobsViewHolder(View itemView) {
+        private OnBookListener mOnBookListener;
+
+        public JobsViewHolder(View itemView, OnBookListener onBookListener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mOnBookListener = onBookListener;
+            itemView.setOnLongClickListener(this);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+
+            Job job = getJob(getAdapterPosition());
+            mOnBookListener.onJobSelected(job);
+
+            return true;
         }
     }
 
-
+    private Job getJob(int itemIndex) {
+        return mJobs.get(itemIndex);
+    }
 }

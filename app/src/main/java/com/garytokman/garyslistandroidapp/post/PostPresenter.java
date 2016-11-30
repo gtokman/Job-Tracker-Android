@@ -7,7 +7,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import android.text.TextUtils;
 
-import com.garytokman.garyslistandroidapp.injecter.FirebaseAuthInjector;
+import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
 import com.garytokman.garyslistandroidapp.model.Job;
 
 public class PostPresenter implements PostContract.Presenter {
@@ -41,23 +41,27 @@ public class PostPresenter implements PostContract.Presenter {
             mView.showEmptyFieldsMessage();
             mView.hideLoadingIndicator();
         } else {
+            DatabaseReference reference = mReference.child("users")
+                    .child(FirebaseInjector.provideFireUser()
+                            .getUid()).child("jobs").push();
+
             Job job = new Job();
             job.setName(mView.getCompanyName());
             job.setStatus(mView.getApplicationStatus());
             job.setNotification(mView.getNotificationValue());
+            job.setId(reference.getKey());
 
-            mReference.child("users")
-                    .child(FirebaseAuthInjector.provideFireUser()
-                            .getUid()).child("jobs").push().updateChildren(job.toJson())
+            reference.updateChildren(job.toJson())
                     .addOnCompleteListener(task -> {
 
-                        mView.hideLoadingIndicator();
-                        mView.finishActivity();
-
+                        if (task.isSuccessful()) {
+                            mView.hideLoadingIndicator();
+                            mView.finishActivity();
+                        }
 
                     }).addOnFailureListener(e -> {
-                    mView.hideLoadingIndicator();
-                    mView.showErrorMessage(e.getLocalizedMessage());
+                mView.hideLoadingIndicator();
+                mView.showErrorMessage(e.getLocalizedMessage());
             });
         }
     }

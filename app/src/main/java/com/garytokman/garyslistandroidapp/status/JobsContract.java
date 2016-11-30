@@ -21,6 +21,11 @@ public interface JobsContract {
         void hideLoadingIndicator();
 
         void showErrorMessage(String errorMessage);
+
+        void onUserLogout();
+
+        void showJobDeletedMessage();
+
     }
 
     interface Presenter {
@@ -34,5 +39,9 @@ public interface JobsContract {
         void onStart();
 
         void onStop();
+
+        void logoutUser();
+
+        void getJobToDelete(Job job);
     }
 }

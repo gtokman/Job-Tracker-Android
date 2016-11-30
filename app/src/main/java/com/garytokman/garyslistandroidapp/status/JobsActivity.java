@@ -11,12 +11,16 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.garytokman.garyslistandroidapp.R;
-import com.garytokman.garyslistandroidapp.injecter.FirebaseAuthInjector;
+import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
+import com.garytokman.garyslistandroidapp.login.LoginActivity;
 import com.garytokman.garyslistandroidapp.model.Job;
 import com.garytokman.garyslistandroidapp.post.PostActivity;
 
@@ -45,11 +49,11 @@ public class JobsActivity extends AppCompatActivity implements JobsContract.View
         setContentView(R.layout.activty_jobs);
         ButterKnife.bind(this);
 
-        mJobsAdapter = new JobsAdapter();
+        mJobsAdapter = new JobsAdapter(mOnBookListener);
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
         mRecycler.setAdapter(mJobsAdapter);
 
-        mJobsPresenter = new JobsPresenter(FirebaseAuthInjector.provideRootDatabaseRef());
+        mJobsPresenter = new JobsPresenter(FirebaseInjector.provideRootDatabaseRef());
         mJobsPresenter.setView(this);
     }
 
@@ -103,8 +107,36 @@ public class JobsActivity extends AppCompatActivity implements JobsContract.View
 
     @Override
     public void showErrorMessage(String errorMessage) {
-        Snackbar.make(mCoorLayout, "Error: " + errorMessage, Snackbar.LENGTH_INDEFINITE).setAction(R.string.ok_text, v -> {
-            Timber.i("Ok clicked after error.");
-        }).show();
+        Snackbar.make(mCoorLayout, "Error: " + errorMessage, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.ok_text, v -> Timber.i("Ok clicked after error.")).show();
     }
+
+    @Override
+    public void onUserLogout() {
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+
+    @Override
+    public void showJobDeletedMessage() {
+        Toast.makeText(this, "Job successfully deleted!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.logout_action) {
+            mJobsPresenter.logoutUser();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private JobsAdapter.OnBookListener mOnBookListener = job -> {
+        mJobsPresenter.getJobToDelete(job);
+    };
 }

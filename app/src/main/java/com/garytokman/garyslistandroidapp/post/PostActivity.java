@@ -19,7 +19,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.garytokman.garyslistandroidapp.R;
-import com.garytokman.garyslistandroidapp.injecter.FirebaseAuthInjector;
+import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +49,7 @@ public class PostActivity extends AppCompatActivity implements PostContract.View
         setContentView(R.layout.activity_post);
         ButterKnife.bind(this);
 
-        mPostPresenter = new PostPresenter(FirebaseAuthInjector.provideRootDatabaseRef());
+        mPostPresenter = new PostPresenter(FirebaseInjector.provideRootDatabaseRef());
         mPostPresenter.onSetView(this);
     }
 

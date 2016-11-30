@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.garytokman.garyslistandroidapp.injecter.FirebaseAuthInjector;
+import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
 import com.garytokman.garyslistandroidapp.login.LoginActivity;
 import com.garytokman.garyslistandroidapp.signup.SignUpActivity;
 import com.garytokman.garyslistandroidapp.status.JobsActivity;
@@ -35,7 +35,7 @@ public class AuthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_auth);
         ButterKnife.bind(this);
 
-        if (FirebaseAuthInjector.provideFireUser() != null) {
+        if (FirebaseInjector.provideFireUser() != null) {
             startActivity(new Intent(this, JobsActivity.class));
             finish();
         }

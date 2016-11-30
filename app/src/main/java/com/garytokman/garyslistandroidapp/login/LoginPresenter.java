@@ -30,13 +30,15 @@ public class LoginPresenter implements LoginContract.Presenter {
             mView.hideLoadingIndicator();
         } else {
             mAuth.signInWithEmailAndPassword(mView.getEmailAddress(), mView.getPassword())
-            .addOnCompleteListener(task -> {
-                mView.hideLoadingIndicator();
-            })
-            .addOnFailureListener(e -> {
-                mView.hideLoadingIndicator();
-                mView.showErrorMessage(e.getLocalizedMessage());
-            });
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            mView.hideLoadingIndicator();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        mView.hideLoadingIndicator();
+                        mView.showErrorMessage(e.getLocalizedMessage());
+                    });
         }
     }
 

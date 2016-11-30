@@ -12,11 +12,20 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Job {
 
+    private String id;
     private String name;
     private String status;
     private boolean notification;
 
     public Job() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -47,6 +56,7 @@ public class Job {
     public Map<String, Object> toJson() {
         Map<String, Object> data = new HashMap<>();
 
+        data.put("id", id);
         data.put("name", name);
         data.put("status", status);
         data.put("notification", notification);
@@ -62,14 +72,16 @@ public class Job {
         Job job = (Job) o;
 
         if (notification != job.notification) return false;
-        if (name != null ? !name.equals(job.name) : job.name != null) return false;
-        return status != null ? status.equals(job.status) : job.status == null;
+        if (id != null ? !id.equals(job.id) : job.id != null) return false;
+        return name != null ? name.equals(job.name) : job.name == null &&
+                (status != null ? status.equals(job.status) : job.status == null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (notification ? 1 : 0);
         return result;

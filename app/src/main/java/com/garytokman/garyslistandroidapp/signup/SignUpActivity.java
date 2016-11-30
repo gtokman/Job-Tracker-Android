@@ -20,7 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.garytokman.garyslistandroidapp.R;
-import com.garytokman.garyslistandroidapp.injecter.FirebaseAuthInjector;
+import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
 import com.garytokman.garyslistandroidapp.status.JobsActivity;
 
 import butterknife.BindView;
@@ -49,7 +49,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
 
-        mSignUpPresenter = new SignUpPresenter(FirebaseAuthInjector.provideFirebaseAuth(), this);
+        mSignUpPresenter = new SignUpPresenter(FirebaseInjector.provideFirebaseAuth(), this);
         mSignUpPresenter.setView(this);
     }
 

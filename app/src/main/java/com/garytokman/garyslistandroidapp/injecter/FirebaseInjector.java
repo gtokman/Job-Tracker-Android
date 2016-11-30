@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class FirebaseAuthInjector {
+public class FirebaseInjector {
 
     public static FirebaseAuth provideFirebaseAuth() {
         return FirebaseAuth.getInstance();
