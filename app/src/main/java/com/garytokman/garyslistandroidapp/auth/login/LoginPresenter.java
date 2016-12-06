@@ -1,4 +1,4 @@
-package com.garytokman.garyslistandroidapp.login;
+package com.garytokman.garyslistandroidapp.auth.login;
 // Gary Tokman
 // 11/26/16
 // GaryslistAndroidApp
@@ -6,6 +6,8 @@ package com.garytokman.garyslistandroidapp.login;
 import com.google.firebase.auth.FirebaseAuth;
 
 import android.text.TextUtils;
+
+import com.garytokman.garyslistandroidapp.GarysListApplication;
 
 import timber.log.Timber;
 
@@ -25,20 +27,25 @@ public class LoginPresenter implements LoginContract.Presenter {
         mView.hideKeyBoard();
         mView.showLoadingIndicator();
 
-        if (TextUtils.isEmpty(mView.getEmailAddress()) || TextUtils.isEmpty(mView.getPassword())) {
-            mView.showEmptyTextFieldMessage();
-            mView.hideLoadingIndicator();
-        } else {
-            mAuth.signInWithEmailAndPassword(mView.getEmailAddress(), mView.getPassword())
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
+        if (GarysListApplication.getApplication().hasNetwork()) {
+            if (TextUtils.isEmpty(mView.getEmailAddress()) || TextUtils.isEmpty(mView.getPassword())) {
+                mView.showEmptyTextFieldMessage();
+                mView.hideLoadingIndicator();
+            } else {
+                mAuth.signInWithEmailAndPassword(mView.getEmailAddress(), mView.getPassword())
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                mView.hideLoadingIndicator();
+                            }
+                        })
+                        .addOnFailureListener(e -> {
                             mView.hideLoadingIndicator();
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        mView.hideLoadingIndicator();
-                        mView.showErrorMessage(e.getLocalizedMessage());
-                    });
+                            mView.showErrorMessage(e.getLocalizedMessage());
+                        });
+            }
+        } else {
+            mView.hideLoadingIndicator();
+            mView.showNoNetworkError();
         }
     }
 

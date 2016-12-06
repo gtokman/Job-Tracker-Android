@@ -22,7 +22,10 @@ import butterknife.ButterKnife;
 public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.JobsViewHolder> {
 
     public interface OnBookListener {
-        void onJobSelected(Job job);
+        void onJobSelectedLong(Job job);
+
+        void onJobSelectedShort(Job job);
+
     }
 
     private List<Job> mJobs;
@@ -43,6 +46,18 @@ public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.JobsViewHolder
     public void removeJob(Job job) {
         mJobs.remove(job);
         notifyDataSetChanged();
+    }
+
+    public void update(Job job) {
+        for (Job j : mJobs) {
+            if (j.equals(job)) {
+                j.setNotification(job.isNotification());
+                j.setStatus(job.getStatus());
+                j.setName(job.getName());
+                int position = mJobs.indexOf(j);
+                notifyItemChanged(position);
+            }
+        }
     }
 
     @Override
@@ -68,7 +83,8 @@ public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.JobsViewHolder
         return mJobs.size();
     }
 
-    public  class JobsViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+    public  class JobsViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener,
+    View.OnClickListener {
 
 
         @BindView(R.id.company_name)
@@ -85,15 +101,23 @@ public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.JobsViewHolder
             ButterKnife.bind(this, itemView);
             mOnBookListener = onBookListener;
             itemView.setOnLongClickListener(this);
+            itemView.setOnClickListener(this);
         }
+
 
         @Override
         public boolean onLongClick(View view) {
 
             Job job = getJob(getAdapterPosition());
-            mOnBookListener.onJobSelected(job);
+            mOnBookListener.onJobSelectedLong(job);
 
             return true;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Job job = getJob(getAdapterPosition());
+            mOnBookListener.onJobSelectedShort(job);
         }
     }
 

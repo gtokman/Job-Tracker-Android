@@ -1,9 +1,9 @@
-package com.garytokman.garyslistandroidapp.signup;
+package com.garytokman.garyslistandroidapp.auth.signup;
 // Gary Tokman
 // 11/26/16
 // GaryslistAndroidApp
 
-import com.garytokman.garyslistandroidapp.login.LoginContract;
+import com.garytokman.garyslistandroidapp.auth.login.LoginContract;
 
 public interface SignUpContract {
 

@@ -1,7 +1,4 @@
-package com.garytokman.garyslistandroidapp.signup;
-// Gary Tokman
-// 11/22/16
-// GaryslistAndroidApp
+package com.garytokman.garyslistandroidapp.auth.login;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -10,7 +7,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -28,12 +24,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class SignUpActivity extends AppCompatActivity implements SignUpContract.View, FirebaseAuth.AuthStateListener {
+public class LoginActivity extends AppCompatActivity implements LoginContract.View, FirebaseAuth.AuthStateListener {
 
     @BindView(R.id.email_text)
     EditText mEmailText;
-    @BindView(R.id.username_text)
-    EditText mUsernameText;
     @BindView(R.id.password_text)
     EditText mPasswordText;
     @BindView(R.id.progressBar)
@@ -41,44 +35,43 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     @BindView(R.id.activity_signup)
     LinearLayout mActivitySignup;
 
-    private SignUpPresenter mSignUpPresenter;
+    private LoginPresenter mLoginPresenter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        mSignUpPresenter = new SignUpPresenter(FirebaseInjector.provideFirebaseAuth(), this);
-        mSignUpPresenter.setView(this);
+        mLoginPresenter = new LoginPresenter(FirebaseInjector.provideFirebaseAuth(), this);
+        mLoginPresenter.setView(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mSignUpPresenter.onStart();
+        mLoginPresenter.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mSignUpPresenter.onStop();
+        mLoginPresenter.onStop();
     }
 
-    @OnClick(R.id.signup_button)
-    public void onClickSignUp(View view) {
-        Timber.i("On click sign up!");
-        mSignUpPresenter.signUpUser();
+    @OnClick(R.id.login_button)
+    public void onClickLogin(View view) {
+        mLoginPresenter.loginUser();
+    }
+
+    @OnClick(R.id.forgot_password_button)
+    public void onClickForgotPassword(View view) {
+        mLoginPresenter.userForgotPassword();
     }
 
     @Override
     public String getEmailAddress() {
         return mEmailText.getText().toString();
-    }
-
-    @Override
-    public String getUserName() {
-        return mUsernameText.getText().toString();
     }
 
     @Override
@@ -102,11 +95,17 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     }
 
     @Override
+    public void showNoNetworkError() {
+        Snackbar.make(mActivitySignup, R.string.no_network, Snackbar.LENGTH_LONG)
+                .setAction("Settings", v -> {
+                    startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                }).show();
+    }
+
+    @Override
     public void showErrorMessage(String errorMessage) {
         Snackbar.make(mActivitySignup, "Error: " + errorMessage, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.ok_text, v -> {
-                    Timber.i("OK hit");
-                }).show();
+        .setAction(R.string.ok_text, v -> Timber.i("OK clicked")).show();
     }
 
     @Override
@@ -119,10 +118,11 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         FirebaseUser user = firebaseAuth.getCurrentUser();
+
         if (user == null) {
-            Timber.i("User is null.");
+            Timber.i("User is null");
         } else {
-            Timber.i("User is %s %s %s", user.getUid(), user.getEmail(), user.getDisplayName());
+            Timber.i("Start activity we have a user %s %s", user.getUid(), user.getEmail());
             startActivity(new Intent(this, JobsActivity.class));
             finish();
         }

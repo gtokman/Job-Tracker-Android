@@ -10,6 +10,8 @@ public interface JobsContract {
     interface View {
         void addJob(Job job);
 
+        void updateJob(Job job);
+
         void removeJob(Job job);
 
         void showEmptyText();

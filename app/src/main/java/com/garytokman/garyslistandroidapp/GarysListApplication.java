@@ -4,10 +4,15 @@ package com.garytokman.garyslistandroidapp;
 // GaryslistAndroidApp
 
 import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import timber.log.Timber;
 
 public class GarysListApplication extends Application {
+
+    private static GarysListApplication sApplication;
 
     @Override
     public void onCreate() {
@@ -17,5 +22,20 @@ public class GarysListApplication extends Application {
             Timber.plant(new Timber.DebugTree());
         }
         Timber.i("Created Garys List app!");
+        sApplication = this;
+    }
+
+    public static GarysListApplication getApplication() {
+        return sApplication;
+    }
+
+    public boolean hasNetwork() {
+        return sApplication.checkNetwork();
+    }
+
+    private boolean checkNetwork() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

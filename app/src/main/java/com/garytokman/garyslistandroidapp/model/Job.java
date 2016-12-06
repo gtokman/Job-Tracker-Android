@@ -6,11 +6,14 @@ package com.garytokman.garyslistandroidapp.model;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.HashMap;
 import java.util.Map;
 
 @IgnoreExtraProperties
-public class Job {
+public class Job implements Parcelable {
 
     private String id;
     private String name;
@@ -71,10 +74,7 @@ public class Job {
 
         Job job = (Job) o;
 
-        if (notification != job.notification) return false;
-        if (id != null ? !id.equals(job.id) : job.id != null) return false;
-        return name != null ? name.equals(job.name) : job.name == null &&
-                (status != null ? status.equals(job.status) : job.status == null);
+        return id != null ? id.equals(job.id) : job.id == null;
 
     }
 
@@ -91,4 +91,36 @@ public class Job {
     public String toString() {
         return name + " " + status + " " + notification;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.status);
+        dest.writeByte(this.notification ? (byte) 1 : (byte) 0);
+    }
+
+    protected Job(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.status = in.readString();
+        this.notification = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<Job> CREATOR = new Parcelable.Creator<Job>() {
+        @Override
+        public Job createFromParcel(Parcel source) {
+            return new Job(source);
+        }
+
+        @Override
+        public Job[] newArray(int size) {
+            return new Job[size];
+        }
+    };
 }

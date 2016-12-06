@@ -1,4 +1,4 @@
-package com.garytokman.garyslistandroidapp;
+package com.garytokman.garyslistandroidapp.auth;
 // Gary Tokman
 // 11/22/16
 // GaryslistAndroidApp
@@ -11,9 +11,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.garytokman.garyslistandroidapp.R;
 import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
-import com.garytokman.garyslistandroidapp.login.LoginActivity;
-import com.garytokman.garyslistandroidapp.signup.SignUpActivity;
+import com.garytokman.garyslistandroidapp.auth.login.LoginActivity;
+import com.garytokman.garyslistandroidapp.auth.signup.SignUpActivity;
 import com.garytokman.garyslistandroidapp.status.JobsActivity;
 
 import butterknife.BindView;

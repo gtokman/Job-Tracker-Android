@@ -11,8 +11,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
 import com.garytokman.garyslistandroidapp.model.Job;
 
-import timber.log.Timber;
-
 import static com.garytokman.garyslistandroidapp.injecter.FirebaseInjector.provideFireUser;
 
 public class JobsPresenter implements JobsContract.Presenter, ChildEventListener {
@@ -76,7 +74,6 @@ public class JobsPresenter implements JobsContract.Presenter, ChildEventListener
             mView.hideEmptyText();
             Job job = dataSnapshot.getValue(Job.class);
             mView.addJob(job);
-            Timber.i("dataSnapshot exists." + dataSnapshot.getValue(Job.class).toString());
         } else {
             mView.showEmptyText();
             mView.hideLoadingIndicator();
@@ -85,7 +82,10 @@ public class JobsPresenter implements JobsContract.Presenter, ChildEventListener
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+        if (dataSnapshot.exists()) {
+            Job job = dataSnapshot.getValue(Job.class);
+            mView.updateJob(job);
+        }
     }
 
     @Override

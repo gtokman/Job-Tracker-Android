@@ -20,9 +20,10 @@ import android.widget.Toast;
 
 import com.garytokman.garyslistandroidapp.R;
 import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
-import com.garytokman.garyslistandroidapp.login.LoginActivity;
+import com.garytokman.garyslistandroidapp.auth.login.LoginActivity;
 import com.garytokman.garyslistandroidapp.model.Job;
 import com.garytokman.garyslistandroidapp.post.PostActivity;
+import com.garytokman.garyslistandroidapp.update.UpdateActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +31,8 @@ import butterknife.OnClick;
 import timber.log.Timber;
 
 public class JobsActivity extends AppCompatActivity implements JobsContract.View {
+
+    public static final String EXTRA_JOB = "EXTRA_JOB";
 
     @BindView(R.id.emptyText)
     TextView mEmptyText;
@@ -78,6 +81,11 @@ public class JobsActivity extends AppCompatActivity implements JobsContract.View
     @Override
     public void addJob(Job job) {
         mJobsAdapter.addJob(job);
+    }
+
+    @Override
+    public void updateJob(Job job) {
+        mJobsAdapter.update(job);
     }
 
     @Override
@@ -136,7 +144,17 @@ public class JobsActivity extends AppCompatActivity implements JobsContract.View
         return super.onOptionsItemSelected(item);
     }
 
-    private JobsAdapter.OnBookListener mOnBookListener = job -> {
-        mJobsPresenter.getJobToDelete(job);
+    private JobsAdapter.OnBookListener mOnBookListener = new JobsAdapter.OnBookListener() {
+        @Override
+        public void onJobSelectedLong(Job job) {
+            mJobsPresenter.getJobToDelete(job);
+        }
+
+        @Override
+        public void onJobSelectedShort(Job job) {
+            Intent intent = new Intent(JobsActivity.this, UpdateActivity.class);
+            intent.putExtra(EXTRA_JOB, job);
+            startActivity(intent);
+        }
     };
 }

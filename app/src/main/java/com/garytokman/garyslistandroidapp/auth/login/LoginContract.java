@@ -1,4 +1,4 @@
-package com.garytokman.garyslistandroidapp.login;
+package com.garytokman.garyslistandroidapp.auth.login;
 // Gary Tokman
 // 11/26/16
 // GaryslistAndroidApp
@@ -15,6 +15,8 @@ public interface LoginContract {
         void hideLoadingIndicator();
 
         void showEmptyTextFieldMessage();
+
+        void showNoNetworkError();
 
         void showErrorMessage(String errorMessage);
 
