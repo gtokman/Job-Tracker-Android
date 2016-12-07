@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import android.text.TextUtils;
 
+import com.garytokman.garyslistandroidapp.GarysListApplication;
 import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
 import com.garytokman.garyslistandroidapp.model.Job;
 import com.garytokman.garyslistandroidapp.post.PostContract;
@@ -62,6 +63,12 @@ public class UpdatePresenter implements UpdateContract.Presenter {
                 mView.hideLoadingIndicator();
                 mView.showErrorMessage(e.getLocalizedMessage());
             });
+
+            if (!GarysListApplication.getApplication().hasNetwork()) {
+                mView.hideLoadingIndicator();
+                mView.hideKeyboard();
+                mView.finishActivity();
+            }
         }
     }
 

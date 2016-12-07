@@ -3,6 +3,7 @@ package com.garytokman.garyslistandroidapp.update;
 // 12/5/16
 // GaryslistAndroidApp
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -147,5 +149,12 @@ public class UpdateActivity extends AppCompatActivity implements UpdateContract.
     @Override
     public void finishActivity() {
         finish();
+    }
+
+    @Override
+    public void hideKeyboard() {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 }

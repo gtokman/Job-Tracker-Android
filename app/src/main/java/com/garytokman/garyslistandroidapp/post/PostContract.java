@@ -23,6 +23,8 @@ public interface PostContract {
 
         void finishActivity();
 
+        void hideKeyboard();
+
     }
 
     interface Presenter {

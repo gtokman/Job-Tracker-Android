@@ -19,8 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.garytokman.garyslistandroidapp.R;
-import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
 import com.garytokman.garyslistandroidapp.auth.login.LoginActivity;
+import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
 import com.garytokman.garyslistandroidapp.model.Job;
 import com.garytokman.garyslistandroidapp.post.PostActivity;
 import com.garytokman.garyslistandroidapp.update.UpdateActivity;
@@ -70,6 +70,13 @@ public class JobsActivity extends AppCompatActivity implements JobsContract.View
     protected void onStop() {
         super.onStop();
         mJobsPresenter.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mJobsPresenter.checkNetwork();
+
     }
 
     @OnClick(R.id.add_fab)

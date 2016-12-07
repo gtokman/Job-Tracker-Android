@@ -45,5 +45,7 @@ public interface JobsContract {
         void logoutUser();
 
         void getJobToDelete(Job job);
+
+        void checkNetwork();
     }
 }

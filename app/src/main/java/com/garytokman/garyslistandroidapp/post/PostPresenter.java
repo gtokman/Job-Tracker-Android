@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import android.text.TextUtils;
 
+import com.garytokman.garyslistandroidapp.GarysListApplication;
 import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
 import com.garytokman.garyslistandroidapp.model.Job;
 
@@ -40,7 +41,8 @@ public class PostPresenter implements PostContract.Presenter {
         if (TextUtils.isEmpty(mView.getCompanyName())) {
             mView.showEmptyFieldsMessage();
             mView.hideLoadingIndicator();
-        } else {
+        }
+        else {
             DatabaseReference reference = mReference.child("users")
                     .child(FirebaseInjector.provideFireUser()
                             .getUid()).child("jobs").push();
@@ -63,6 +65,12 @@ public class PostPresenter implements PostContract.Presenter {
                 mView.hideLoadingIndicator();
                 mView.showErrorMessage(e.getLocalizedMessage());
             });
+
+            if (!GarysListApplication.getApplication().hasNetwork()) {
+                mView.hideLoadingIndicator();
+                mView.hideKeyboard();
+                mView.finishActivity();
+            }
         }
     }
 }

@@ -3,6 +3,8 @@ package com.garytokman.garyslistandroidapp;
 // 11/22/16
 // GaryslistAndroidApp
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -17,6 +19,8 @@ public class GarysListApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        /*Persists data if no network*/
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());

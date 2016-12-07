@@ -8,6 +8,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
+import com.garytokman.garyslistandroidapp.GarysListApplication;
 import com.garytokman.garyslistandroidapp.injecter.FirebaseInjector;
 import com.garytokman.garyslistandroidapp.model.Job;
 
@@ -65,6 +66,14 @@ public class JobsPresenter implements JobsContract.Presenter, ChildEventListener
             mView.removeJob(job);
             mView.showJobDeletedMessage();
         });
+        checkNetwork();
+    }
+
+    @Override
+    public void checkNetwork() {
+        if (!GarysListApplication.getApplication().hasNetwork()) {
+            mView.showErrorMessage("No network connection detected: Sync will occur when connected.");
+        }
     }
 
     @Override
